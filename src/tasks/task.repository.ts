@@ -15,7 +15,6 @@ export class TaskRepository extends Repository<Task> {
     const query = this.createQueryBuilder('task');
 
     query.where('task.userId = :userId', {userId: user.id})
-    await console.log( await query.getMany())
 
     if (status) {
       query.andWhere('task.status = :status', { status });
@@ -23,7 +22,7 @@ export class TaskRepository extends Repository<Task> {
 
     if (search) {
       query.andWhere(
-        'task.title LIKE :search OR task.description LIKE :search',
+        '(task.title LIKE :search OR task.description LIKE :search)',
         { search: `%${search}%` },
       );
     }
